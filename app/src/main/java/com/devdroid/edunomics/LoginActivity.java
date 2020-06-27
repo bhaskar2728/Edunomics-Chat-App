@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
     Button btnLogin,btnOTP;
     EditText edtEmail,edtPassword;
-    TextView txtSignup;
+    TextView txtSignup,fgtPassword;
     ImageView img1,img2;
 
     FirebaseAuth mAuth;
@@ -67,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
 
         txtSignup = findViewById(R.id.txtSignup);
+        fgtPassword = findViewById(R.id.fgtPassword);
 
         txtSignup.setOnClickListener(new View.OnClickListener() {
             @Override

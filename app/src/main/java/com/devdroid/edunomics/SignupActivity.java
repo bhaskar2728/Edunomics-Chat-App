@@ -165,7 +165,7 @@ public class SignupActivity extends AppCompatActivity {
                     else{
                         progressBar.dismiss();
                         if(task.getException().toString().contains("The email address is badly")){
-                            Toast.makeText(SignupActivity.this, "Please enter a valid Email address", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignupActivity.this, "Please enter a valid Email address...", Toast.LENGTH_SHORT).show();
                         }
                         else if(task.getException().toString().contains("The email address is already in use")){
                             Toast.makeText(SignupActivity.this, "This email address is already in use", Toast.LENGTH_SHORT).show();

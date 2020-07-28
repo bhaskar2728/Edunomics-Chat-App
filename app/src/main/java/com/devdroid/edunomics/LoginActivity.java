@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
 
     ProgressDialog progressDialog;
+    String test;
 
     protected void onStart() {
         super.onStart();

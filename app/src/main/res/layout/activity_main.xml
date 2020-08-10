@@ -8,6 +8,10 @@
     android:gravity="center">
 
     <ImageView
+
+
+
+
         android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_80sdp"
         android:src="@drawable/logo"/>

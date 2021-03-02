@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +26,8 @@ import com.devdroid.edunomics.Adapters.DisplayChatsAdapter;
 import com.devdroid.edunomics.Model.Chats;
 import com.devdroid.edunomics.Model.User;
 import com.firebase.client.Firebase;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +35,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,12 +51,14 @@ public class ChatActivity extends AppCompatActivity {
     TextView username,txtStatus;
     FirebaseUser firebaseUser;
     DatabaseReference reference;
-    CircleImageView btnSend;
+    ImageView btnSend;
+    LinearLayout llBack;
     EditText edtMessage;
     ArrayList<Chats> chatsArrayList;
     RecyclerView messagesView;
     DisplayChatsAdapter chatsAdapter;
     ValueEventListener seenListener;
+    CircleImageView imgProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +66,10 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         Firebase.setAndroidContext(this);
-
         btnSend = findViewById(R.id.btnSend);
+        llBack = findViewById(R.id.llBack);
         edtMessage = findViewById(R.id.edtMessage);
+        imgProfile = findViewById(R.id.profile_img);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,6 +83,19 @@ public class ChatActivity extends AppCompatActivity {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
 
+        StorageReference profileRef = FirebaseStorage.getInstance().getReference().child("users/"+userid+".jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(imgProfile);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Profile:",e.toString());
+            }
+        });
+
         username  = findViewById(R.id.username);
         txtStatus = findViewById(R.id.txtStatus);
 
@@ -81,6 +104,13 @@ public class ChatActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
         messagesView.setLayoutManager(linearLayoutManager);
+
+        llBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override

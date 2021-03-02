@@ -44,7 +44,6 @@ public class SplashScreen extends AppCompatActivity {
 
                         // Log and toast
                         Log.d("token:", token);
-                        Toast.makeText(SplashScreen.this, token, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

@@ -54,17 +54,13 @@ public class DisplayChatsAdapter extends RecyclerView.Adapter<DisplayChatsAdapte
 
 
             holder.time.setText(chat.getTime());
-//        if(position == chatsArrayList.size()-1){
             if(chat.isIsseen()){
                 holder.txtSeen.setText("Seen");
             }
             else{
                 holder.txtSeen.setText("Delivered");
             }
-//        }
-//        else{
-//            holder.txtSeen.setVisibility(View.GONE);
-//        }
+
 
 
     }
